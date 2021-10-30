@@ -62,34 +62,41 @@ firstIter = True
 
 # loop on simulation time
 for t in simu.t: 
-   
+    # WP navigation: switching condition to next WP of the list
+
+    d = WPManager.distanceToCurrentWP(robot.x,robot.y)
+    
+    if(d < WPManager.epsilonWP) :
+        WPManager.switchToNextWP()
 
 
     # position control loop
-    if timerPositionCtrl.isEllapsed(t):
 
-        potentialValue = pot.value([robot.x, robot.y])
+    if timerPositionCtrl.isEllapsed(t):
+        # A COMPLETER EN TD : calcul de Vr
+        Vr = k2*math.sqrt(math.pow(WPManager.xr-robot.x,2)+math.pow(WPManager.yr-robot.y,2))        
+
+        # A COMPLETER EN TD : calcul de thetar
+        thetar = np.arctan2((WPManager.yr-robot.y),(WPManager.xr-robot.x))
         
-        # velocity control input
-        Vr = 0.0
-        
-        
-        # reference orientation
-        thetar = theta0
-        
-        
+        # !!!!! 
+        # A COMPRENDRE EN TD : quelle est l'utilité des deux lignes de code suivantes ?
+        #     (à conserver après le calcul de thetar)
         if math.fabs(robot.theta-thetar)>math.pi:
             thetar = thetar + math.copysign(2*math.pi,robot.theta)        
-        
+        # !!!!! 
         
         
     # orientation control loop
     if timerOrientationCtrl.isEllapsed(t):
         # angular velocity control input        
-        omegar = 0.0
+        # !!!!! 
+        # A COMPLETER EN TD : calcul de omegar
+        omegar = k1*(thetar-robot.theta)
+        # !!!!! 
+
     
-    
-    # assign control inputs to robot
+    # apply control inputs to robot
     robot.setV(Vr)
     robot.setOmega(omegar)    
     
@@ -97,7 +104,7 @@ for t in simu.t:
     robot.integrateMotion(dt)
 
     # store data to be plotted   
-    simu.addData(robot, WPManager, Vr, thetar, omegar, pot.value([robot.x,robot.y]))
+    simu.addData(robot, WPManager, Vr, thetar, omegar)
     
     
 # end of loop on simulation time
