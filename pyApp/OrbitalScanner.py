@@ -72,6 +72,7 @@ class OrbitalScanner:
                     self.computeNewVecDir()
 
             if(self.orbitWPId >= self.orbSubDiv-1):
+                self.orbitWPId = self.orbSubDiv-2
                 print("epi center found", self.radialCenter, self.radialCenterHP)
                 self.state = 3
                 self.nextWp = self.radialCenter
