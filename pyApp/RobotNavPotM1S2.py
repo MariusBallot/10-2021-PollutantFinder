@@ -112,13 +112,13 @@ fig, ax = simu.plotXY(1)
 # plot potential for verification of solution
 pot.plot(noFigure=None, fig=fig, ax=ax)
 
-# simu.plotXYTheta(2)
-# simu.plotVOmega(3)
+simu.plotXYTheta(2)
+simu.plotVOmega(3)
 
-# simu.plotPotential(4)
+simu.plotPotential(4)
 
 
-# simu.plotPotential3D(5)
+simu.plotPotential3D(5)
 
 
 # show plots

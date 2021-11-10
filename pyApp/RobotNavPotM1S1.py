@@ -37,9 +37,9 @@ timerOrientationCtrl = tmr.Timer(orientationCtrlPeriod)
 
 
 # list of way points list of [x coord, y coord]
-WPlist = [[0, 0], [10, 0], [-10, 0]]
+WPlist = []
 
-areaScanner = AreaScanner(WPlist, 30, 10)
+areaScanner = AreaScanner(30, 20, 40, 40)
 WPlist = areaScanner.hydrateWp()
 
 # threshold for change to next WP
@@ -50,7 +50,7 @@ WPManager = rob.WPManager(WPlist, epsilonWP)
 
 # duration of scenario and time step for numerical integration
 t0 = 0.0
-tf = 1000.0
+tf = 5000.0
 dt = 0.01
 simu = rob.RobotSimulation(robot, t0, tf, dt)
 
@@ -77,6 +77,7 @@ for t in simu.t:
     if(d < WPManager.epsilonWP):
         WPManager.switchToNextWP()
         if(goingToTarget):
+            print("Epicenter found at :", highestPot[1], highestPot[2])
             break
 
     # position control loop
@@ -135,13 +136,13 @@ fig, ax = simu.plotXY(1)
 # plot potential for verification of solution
 pot.plot(noFigure=None, fig=fig, ax=ax)
 
-# simu.plotXYTheta(2)
-# simu.plotVOmega(3)
+simu.plotXYTheta(2)
+simu.plotVOmega(3)
 
-# simu.plotPotential(4)
+simu.plotPotential(4)
 
 
-# simu.plotPotential3D(5)
+simu.plotPotential3D(5)
 
 
 # show plots
